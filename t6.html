@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Integration</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Google Maps Integration</h1>
+    
+    <h2>Get Directions</h2>
+    <form id="directionsForm">
+        <input type="text" name="origin" placeholder="Origin" required>
+        <input type="text" name="destination" placeholder="Destination" required>
+        <button type="submit">Get Directions</button>
+    </form>
+    <pre id="directionsResult"></pre>
+
+    <h2>Geocode an Address</h2>
+    <form id="geocodeForm">
+        <input type="text" name="address" placeholder="Address" required>
+        <button type="submit">Geocode</button>
+    </form>
+    <pre id="geocodeResult"></pre>
+
+    <h2>Find Nearby Places</h2>
+    <form id="placesForm">
+        <input type="text" name="location" placeholder="Location" required>
+        <button type="submit">Find Places</button>
+    </form>
+    <pre id="placesResult"></pre>
+
+    <script>
+        $('#directionsForm').submit(function(e) {
+            e.preventDefault();
+            $.post('/get_directions', $(this).serialize(), function(data) {
+                $('#directionsResult').text(JSON.stringify(data.directions, null, 2));
+            });
+        });
+
+        $('#geocodeForm').submit(function(e) {
+            e.preventDefault();
+            $.post('/geocode', $(this).serialize(), function(data) {
+                $('#geocodeResult').text(JSON.stringify(data.geocode_result, null, 2));
+            });
+        });
+
+        $('#placesForm').submit(function(e) {
+            e.preventDefault();
+            $.post('/places', $(this).serialize(), function(data) {
+                $('#placesResult').text(JSON.stringify(data.places_result, null, 2));
+            });
+        });
+    </script>
+</body>
+</html>
